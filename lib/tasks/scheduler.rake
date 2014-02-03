@@ -3,6 +3,7 @@ desc "This task is called by the Heroku scheduler add-on"
 task :hacker_data => :environment do
 	require 'nokogiri'
 	require 'open-uri'
+	require 'date'
 
 	def gather_jobs(initial_link)
 		doc = Nokogiri::HTML( open( initial_link ) )
@@ -20,11 +21,21 @@ task :hacker_data => :environment do
 		end
 	end
 
-	hackernews_url = 'https://news.ycombinator.com/item?id=6653437'
+	def check_time( scheduled_link )
+		date = Date.today
+		if date == Date.new(2014, 2, 3)
+			puts 'Gathering jobs'
+			gather_jobs(scheduled_link)
+		else
+			puts 'It is not time to gather jobs yet'
+		end
+	end
+
+	scheduled_link = 'https://news.ycombinator.com/item?id=6653437'
 
 	job_list = []
 
-	gather_jobs(hackernews_url)
+	check_time( scheduled_link )
 
 
 end

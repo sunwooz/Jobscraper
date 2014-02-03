@@ -1,0 +1,23 @@
+<div class="row">
+	<div class="col-xs-3 col-xs-offset-5">
+		<h1>Job listing</h1>
+		<%= form_tag jobs_path, method: :get do %>
+			<%= text_field_tag :search, params[:search] %>
+			<%= submit_tag "Search", :name => nil %>
+		<% end %>
+	</div>
+
+	<div class="col-xs-6 col-xs-offset-3">
+
+		<ul>
+			<% @jobs.each do |job| %>
+				<p><%= job.content %></p>
+				<em>Added <%= time_ago_in_words(job.created_at) %> ago</em><br>
+				<%= link_to "Delete", job_path(job), confirm: 'Are you sure?', method: :delete %><br>
+				<%= link_to "Job page", job_path(job) %><br><br>
+			<% end %>
+
+		</ul>
+	</div>
+
+</div>

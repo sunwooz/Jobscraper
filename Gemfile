@@ -10,6 +10,8 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
 gem 'bootstrap-sass', '3.0.3.0'
 gem 'nokogiri', '1.6.1'
+gem 'sunspot_rails', '2.1.0'
+gem 'sunspot_solr'
 
 group :test, :development do
 	gem 'sqlite3'
