@@ -4,14 +4,16 @@ task :hacker_data => :environment do
 	require 'nokogiri'
 	require 'open-uri'
 
-	hackernews_url = 'https://news.ycombinator.com/item?id=7162197'
-
-	gather_urls(hackernews_url)
-
 	def gather_urls(initial_link)
 		doc = Nokogiri::HTML( open( initial_link ) )
 		puts doc
 	end
+
+	hackernews_url = 'https://news.ycombinator.com/item?id=7162197'
+
+	gather_urls(hackernews_url)
+
+
 end
 
 
