@@ -1,10 +1,15 @@
 class JobsController < ApplicationController
 
 	def index
-		@search = Job.search do
-			fulltext params[:search]
+		if params[:search].blank?
+			@search = nil
+			@jobs = []
+		else
+			@search = Job.search do
+				fulltext params[:search]
+			end
+			@jobs = @search.results
 		end
-		@jobs = @search.results
 	end
 
 	def show
@@ -12,7 +17,8 @@ class JobsController < ApplicationController
 	end
 
 	def destroy
+		session[:return_to] ||= request.referer
 		@job = Job.find(params[:id]).delete
-		redirect_to jobs_path
+		redirect_to session[:return_to]
 	end
 end

@@ -1,6 +1,6 @@
 Jobscraper::Application.routes.draw do
 
-  root 'static_pages#home'
+  root 'jobs#index'
   match '/about', to: 'static_pages#about', via: 'get'
 
   resources :jobs

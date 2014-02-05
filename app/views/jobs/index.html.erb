@@ -1,9 +1,17 @@
 <div class="row">
-	<div class="col-xs-3 col-xs-offset-5">
-		<h1>Job listing</h1>
-		<%= form_tag jobs_path, method: :get do %>
-			<%= text_field_tag :search, params[:search] %>
-			<%= submit_tag "Search", :name => nil %>
+	<div class="col-xs-4 col-xs-offset-4">
+
+		<h1 class="center">Hacker News Job Listings</h1>
+
+		<% unless @jobs.count == 0 %>
+			<h1 class="center">Showing <%= pluralize( @jobs.count, 'result') %> for '<%= params[:search] %>'</h1>
+		<% end %>
+
+		<%= form_tag jobs_path, method: :get, :class => 'form-inline center job-form' do %>
+			<div class="form-group">
+				<%= text_field_tag :search, params[:search], :class => 'form-control center' %>
+			</div>
+			<%= submit_tag "Search", :class => 'btn btn-primary' %>
 		<% end %>
 	</div>
 
