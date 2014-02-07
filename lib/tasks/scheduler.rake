@@ -34,7 +34,7 @@ namespace :hn do
 end
 
 def gather_jobs(initial_link, post_date)
-	doc = Nokogiri::HTML( open( initial_link ) )
+	doc = Nokogiri::HTML( open( initial_link, 'User-Agent' => 'Magic Browser' ) )
 	doc.css('span.comment').each do |comment|
 		string_comment = comment.text()
 		Job.create(content: string_comment, created_at: post_date)
