@@ -13,10 +13,17 @@ gem 'nokogiri', '1.6.1'
 gem 'sunspot_rails', '2.1.0'
 gem 'sunspot_solr'
 gem 'delayed_job_active_record', '4.0.0'
+gem 'will_paginate'
+gem 'will_paginate-bootstrap'
+gem 'progress_bar'
 
 group :test, :development do
 	gem 'sqlite3'
 	gem 'rspec-rails', '2.13.1'
+end
+
+group :development do
+	gem 'quiet_assets'
 end
 
 group :test do
