@@ -1,12 +1,16 @@
 class JobsController < ApplicationController
 
 	def index
-		if params[:search].blank?
-			@search = nil
-			@jobs = []
-		else
+		require 'will_paginate/array'
+
+		session[:return_to] = nil
+
+		@search = nil; @jobs = [] if params[:search].blank?
+		if !params[:search].blank?
 			@search = Job.search do
 				fulltext params[:search]
+				paginate :page => params[:page] || 1, :per_page => 15
+				order_by(:created_at, :desc)
 			end
 			@jobs = @search.results
 		end
@@ -22,3 +26,4 @@ class JobsController < ApplicationController
 		redirect_to session[:return_to]
 	end
 end
+	
