@@ -29,12 +29,13 @@ namespace :hn do
 			post_title = job_post.post_title
 			puts "Populating jobs for: #{post_title}, posted on: #{post_date_in_words}."
 			gather_jobs(post_link, post_date)
+			sleep(3)
 		end
 	end
 end
 
 def gather_jobs(initial_link, post_date)
-	doc = Nokogiri::HTML( open( initial_link, 'User-Agent' => 'Magic Browser' ) )
+	doc = Nokogiri::HTML( open( initial_link, 'User-Agent' => 'ruby' ) )
 	doc.css('span.comment').each do |comment|
 		string_comment = comment.text()
 		Job.create(content: string_comment, created_at: post_date)
