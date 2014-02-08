@@ -29,6 +29,7 @@ namespace :hn do
 			post_title = job_post.post_title
 			puts "Populating jobs for: #{post_title}, posted on: #{post_date_in_words}."
 			gather_jobs(post_link, post_date)
+			puts "Done Populating #{post_title}."
 			sleep(3)
 		end
 	end
