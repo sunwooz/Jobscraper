@@ -16,6 +16,8 @@ gem 'delayed_job_active_record', '4.0.0'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 gem 'progress_bar'
+gem 'pg', '0.17.1'
+gem 'mechanize'
 
 group :test, :development do
 	gem 'sqlite3'
@@ -32,7 +34,6 @@ group :test do
 end
 
 group :production do
-	gem 'pg', '0.17.1'
 	gem 'rails_12factor', '0.0.2'
 end
 

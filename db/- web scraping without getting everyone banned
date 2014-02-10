@@ -1,0 +1,10 @@
+- web scraping without getting everyone banned
+  - using Mechanize to spin up a different proxy in each request
+  - Heroku dyno == different ip address?
+  - Heroku scheduler rake tasks
+
+- Full text search with postgresql vs Full text search using Sunspot:solr
+
+
+
+

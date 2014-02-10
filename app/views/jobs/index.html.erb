@@ -26,20 +26,24 @@
 	</div>
 
 	<div class="col-xs-6 col-xs-offset-3">
-
-		<ul>
-			<% @jobs.each do |job| %>
+		<% @jobs.each do |job| %>
+			<div class="job_post">
 				<p><%= job.content %></p>
 				<em>Added <%= time_ago_in_words(job.created_at) %> ago</em><br>
 				<%= link_to "Delete", job_path(job), data: { confirm: 'Are you sure?' }, method: :delete %><br>
 				<%= link_to "Job page", job_path(job) %><br><br>
+			</div>
+		<% end %>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-12 col-xs-offset-3">
+
+			<% if @jobs.any? %>
+				<%= will_paginate @jobs, renderer: BootstrapPagination::Rails %>
 			<% end %>
 
-		</ul>
-
-		<% if @jobs.any? %>
-			<%= will_paginate @jobs, renderer: BootstrapPagination::Rails %>
-		<% end %>
+		</div>
 	</div>
 
 </div>
