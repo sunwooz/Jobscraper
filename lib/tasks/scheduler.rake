@@ -46,8 +46,11 @@ end
 
 def gather_jobs(initial_link, post_date)
 	agent = Mechanize.new
-	agent.set_proxy '78.186.178.153', 8080
-	page = agent.get(initial_link)
+	agent.user_agent_alias = "Ruby"
+	puts "Accessing proxy..."
+	agent.set_proxy '198.23.143.27', 5555
+	page = agent.get(initial_link).body
+	puts "Data retrieved from #{initial_link}."
 
 	doc = Nokogiri::HTML( page )
 	doc.css('span.comment').each do |comment|
