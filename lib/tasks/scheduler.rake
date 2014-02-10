@@ -46,7 +46,7 @@ end
 
 def gather_jobs(initial_link, post_date)
 	agent = Mechanize.new
-	agent.user_agent_alias = "Ruby"
+	agent.user_agent_alias = "Mac Safari"
 	puts "Accessing proxy..."
 	agent.set_proxy '198.23.143.27', 5555
 	page = agent.get(initial_link).body
