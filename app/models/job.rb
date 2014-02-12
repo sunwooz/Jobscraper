@@ -3,8 +3,8 @@ require 'open-uri'
 
 class Job < ActiveRecord::Base
 	#   t.text     "content"
-	#   t.datetime "created_at"
-	#   t.datetime "updated_at"
+	#   t.timestamp "created_at"
+	#   t.timestamp "updated_at"
 
 	validates :content, uniqueness: true
 

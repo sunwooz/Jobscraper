@@ -1,5 +1,4 @@
 require 'nokogiri'
-require 'open-uri'
 require 'date'
 require 'mechanize'
 
@@ -9,13 +8,11 @@ namespace :hn do
 		whoishiring_page = 'https://news.ycombinator.com/submitted?id=whoishiring'
 		hacker_base_url = 'https://news.ycombinator.com/'
 
-		# agent = Mechanize.new
-		# agent.set_proxy '96.226.203.120', 20342
-		# puts "Accessing proxy."
-		# page = agent.get(whoishiring_page)
-		# puts "Page accessed."
+		agent = access_proxy()
+		page = agent.get(whoishiring_page).body
+		print "Page accessed."
 
-		doc = Nokogiri::HTML( open( whoishiring_page ) )
+		doc = Nokogiri::HTML( page )
 		doc.css('a').each do |link|
 			link_text = link.text
 			if link.text.include?('Ask HN: Who is hiring?')
@@ -39,18 +36,59 @@ namespace :hn do
 			puts "Populating jobs for: #{post_title}, posted on: #{post_date_in_words}."
 			gather_jobs(post_link, post_date)
 			puts "Done Populating #{post_title}."
-			sleep(3)
+			sleep(1)
 		end
 	end
 end
 
-def gather_jobs(initial_link, post_date)
+	namespace :schedule do
+
+		desc "Scrape the latest HN hiring post"
+		task :latest_post do
+			#NOT DONE
+			whoishiring_page = 'https://news.ycombinator.com/submitted?id=whoishiring'
+			hacker_base_url = 'https://news.ycombinator.com/'
+
+			agent = access_proxy()
+			page = agent.get(whoishiring_page).body
+			print "Who is Hiring page accessed."
+
+			doc = Nokogiri::HTML( page )
+			doc.css('a').each_with_index do |link, index|
+				break if link.text.include?('Freelancer?')
+				job_info = HackerNewsJobPost.find_by(post_title: link.text)
+				next if job_info
+				if !job_info
+					job_post_link = hacker_base_url + link.attribute('href')
+					date_published = Date.parse( link.text )
+
+					HackerNewsJobPost.create(post_title: link.text, post_link: job_post_link, post_date: date_published)
+				end
+
+				most_recent_hn_post_db = HackerNewsJobPost.all.order(post_date: :desc).first
+				if most_recent_hn_post_db.times_scraped < 20
+					puts "Scraping #{most_recent_hn_post_db.post_title}."
+					gather_jobs(most_recent_hn_post_db.post_link, most_recent_hn_post_db.post_date)
+				else
+					puts "No new jobs to scrape!"
+				end
+			end
+		end
+
+	end
+
+def access_proxy
 	agent = Mechanize.new
-	agent.user_agent_alias = "Mac Safari"
-	puts "Accessing proxy..."
-	agent.set_proxy '198.23.143.27', 5555
+	proxy = '198.23.143.27'
+	print "Accessing proxy #{proxy}..."
+	agent.set_proxy proxy, 5555
+	return agent
+end
+
+def gather_jobs(initial_link, post_date)
+	agent = access_proxy()
 	page = agent.get(initial_link).body
-	puts "Data retrieved from #{initial_link}."
+	print "Data retrieved from #{initial_link}."
 
 	doc = Nokogiri::HTML( page )
 	doc.css('span.comment').each do |comment|
@@ -60,7 +98,7 @@ def gather_jobs(initial_link, post_date)
 
 	more_link = doc.css('a:contains("More")')
 	unless more_link.empty?
-		sleep(3)
+		sleep(1)
 		base_url = 'https://news.ycombinator.com'
 		the_href = more_link.attribute('href')
 		hacker_url = base_url + the_href
