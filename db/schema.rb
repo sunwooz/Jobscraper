@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140211185709) do
+ActiveRecord::Schema.define(version: 20140212230732) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,9 @@ ActiveRecord::Schema.define(version: 20140211185709) do
     t.string   "user_href"
     t.string   "comment_link"
     t.integer  "hacker_news_job_posts_id"
+    t.tsvector "search_vector"
   end
+
+  add_index "jobs", ["search_vector"], name: "jobs_search_idx", using: :gin
 
 end
