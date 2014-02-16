@@ -22,10 +22,11 @@
 			<% if @jobs.any? %>
 				<%= will_paginate @jobs, renderer: BootstrapPagination::Rails %>
 			<% end %>
+
 			<div id="accordion">
 				<% @jobs.each do |job| %>
 					<div class="job_post">
-						<h3><%=raw job.content.split('<p>')[0] %></h3>
+						<h3><%= job.content.split('<p>')[0] %></h3>
 						<%=raw job.content %>
 						<em>Added <%= time_ago_in_words(job.created_at) %> ago</em><br>
 						<%= link_to "Delete", job_path(job), data: { confirm: 'Are you sure?' }, method: :delete %><br>
