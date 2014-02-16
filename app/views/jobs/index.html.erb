@@ -4,7 +4,7 @@
 
 		<h1 class="center"><%= image_tag("ycomb.png") %> Hacker News Job Listings</h1>
 
-		<% unless @jobs.count == 0 %>
+		<% if !params[:search].blank? %>
 			<h1 class="center"><span style="font-size: 14px">Showing <%= pluralize( @jobs.count, 'result') %> for</span><br/>'<%= params[:search] %>'</h1>
 		<% end %>
 
