@@ -93,8 +93,9 @@ def gather_jobs(initial_link, post_date)
 	puts "Data retrieved from #{initial_link}."
 
 	doc = Nokogiri::HTML( page )
+	puts "Page accessed with Nokogiri"
 	doc.css('span.comment').each do |comment|
-		found_job = Job.find_by(content: comment)
+		found_job = Job.find_by(content: comment.to_s)
 		!if found_job
 			html_comment = comment.to_s
 			Job.create(content: html_comment, created_at: post_date)
