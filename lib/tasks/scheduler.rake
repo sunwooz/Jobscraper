@@ -1,6 +1,7 @@
 require 'nokogiri'
 require 'date'
 require 'mechanize'
+require 'colorize'
 
 namespace :hn do
 	desc "get a list of HN Hiring Now links and put in database"
@@ -33,7 +34,7 @@ namespace :hn do
 			post_date = job_post.post_date
 			post_date_in_words = post_date.strftime("%B %d, %Y")
 			post_title = job_post.post_title
-			puts "Populating jobs for: #{post_title}, posted on: #{post_date_in_words}."
+			puts "Populating jobs for: #{post_title}..."
 			gather_jobs(post_link, post_date)
 			puts "Done Populating #{post_title}."
 			sleep(2)
@@ -82,7 +83,7 @@ end
 def access_proxy
 	agent = Mechanize.new
 	proxy = '198.23.143.27'
-	print "Accessing proxy #{proxy}..."
+	puts "Accessing proxy #{proxy}..."
 	agent.set_proxy proxy, 5555
 	return agent
 end
@@ -96,7 +97,7 @@ def gather_jobs(initial_link, post_date)
 	puts "Page accessed with Nokogiri"
 	doc.css('span.comment').each do |comment|
 		found_job = Job.find_by(content: comment.to_s)
-		!if found_job
+		if !found_job
 			html_comment = comment.to_s
 			Job.create(content: html_comment, created_at: post_date)
 		end
