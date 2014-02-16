@@ -17,6 +17,7 @@ gem 'will_paginate-bootstrap'
 gem 'progress_bar'
 gem 'pg', '0.17.1'
 gem 'mechanize'
+gem 'colorize'
 
 group :test, :development do
 	gem 'sqlite3'
