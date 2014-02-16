@@ -36,7 +36,7 @@ namespace :hn do
 			puts "Populating jobs for: #{post_title}, posted on: #{post_date_in_words}."
 			gather_jobs(post_link, post_date)
 			puts "Done Populating #{post_title}."
-			sleep(1)
+			sleep(2)
 		end
 	end
 end
@@ -51,7 +51,7 @@ end
 
 			agent = access_proxy()
 			page = agent.get(whoishiring_page).body
-			print "Who is Hiring page accessed."
+			puts "Who is Hiring page accessed."
 
 			doc = Nokogiri::HTML( page )
 			doc.css('a').each_with_index do |link, index|
@@ -88,12 +88,12 @@ end
 def gather_jobs(initial_link, post_date)
 	agent = access_proxy()
 	page = agent.get(initial_link).body
-	print "Data retrieved from #{initial_link}."
+	puts "Data retrieved from #{initial_link}."
 
 	doc = Nokogiri::HTML( page )
 	doc.css('span.comment').each do |comment|
-		string_comment = comment.text()
-		Job.create(content: string_comment, created_at: post_date)
+		html_comment = comment.to_s
+		Job.create(content: html_comment, created_at: post_date)
 	end
 
 	more_link = doc.css('a:contains("More")')

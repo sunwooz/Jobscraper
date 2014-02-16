@@ -14,7 +14,12 @@ class Job < ActiveRecord::Base
 	# end
 
 	def self.search(terms = "")
-		sanitized = sanitize_sql_array(["to_tsquery('english', ?)", terms.gsub(/\s/,"+")])
-		Job.where("search_vector @@ #{sanitized}")
+		if terms.blank?
+			result = Job.all
+		else
+			sanitized = sanitize_sql_array(["to_tsquery('english', ?)", terms.gsub(/\s/,"+")])
+			result = Job.where("search_vector @@ #{sanitized}")
+		end
+		return result
 	end
 end

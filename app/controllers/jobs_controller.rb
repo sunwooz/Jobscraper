@@ -5,19 +5,7 @@ class JobsController < ApplicationController
 
 		session[:return_to] = nil
 
-		@search = nil; @jobs = [] if params[:search].blank?
-		if !params[:search].blank?
-			@jobs = Job.search(params[:search]).paginate(:page => params[:page])
-		end
-		# if !params[:search].blank?
-		# 	@search = Job.search do
-		# 		fulltext params[:search]
-		# 		paginate :page => params[:page] || 1, :per_page => 15
-		# 		order_by(:created_at, :desc)
-		# 	end
-		# 	@jobs = @search.results
-		# end
-		
+		@jobs = Job.search(params[:search]).paginate(:page => params[:page])	
 	end
 
 	def show
