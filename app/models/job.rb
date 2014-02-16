@@ -15,7 +15,7 @@ class Job < ActiveRecord::Base
 
 	def self.search(terms = "")
 		if terms.blank?
-			result = Job.all
+			result = Job.all(limit: 15)
 		else
 			sanitized = sanitize_sql_array(["to_tsquery('english', ?)", terms.gsub(/\s/,"+")])
 			result = Job.where("search_vector @@ #{sanitized}")

@@ -54,11 +54,13 @@ end
 			puts "Who is Hiring page accessed."
 
 			doc = Nokogiri::HTML( page )
-			doc.css('a').each_with_index do |link, index|
-				break if link.text.include?('Freelancer?')
+			count = 0
+			doc.css('a').each do |link|
+				break if link.text.include?('Freelancer?') || count > 0
 				job_info = HackerNewsJobPost.find_by(post_title: link.text)
-				next if job_info
+				next if job_info 
 				if !job_info
+					count += 1
 					job_post_link = hacker_base_url + link.attribute('href')
 					date_published = Date.parse( link.text )
 
@@ -92,8 +94,11 @@ def gather_jobs(initial_link, post_date)
 
 	doc = Nokogiri::HTML( page )
 	doc.css('span.comment').each do |comment|
-		html_comment = comment.to_s
-		Job.create(content: html_comment, created_at: post_date)
+		found_job = Job.find_by(content: comment)
+		!if found_job
+			html_comment = comment.to_s
+			Job.create(content: html_comment, created_at: post_date)
+		end
 	end
 
 	more_link = doc.css('a:contains("More")')
