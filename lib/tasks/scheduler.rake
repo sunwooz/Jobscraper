@@ -91,10 +91,9 @@ end
 def gather_jobs(initial_link, post_date)
 	agent = access_proxy()
 	page = agent.get(initial_link).body
-	puts "Data retrieved from #{initial_link}."
+	puts "\tMechanize visited #{initial_link}."
 
 	doc = Nokogiri::HTML( page )
-	puts "Page accessed with Nokogiri"
 	doc.css('span.comment').each do |comment|
 		found_job = Job.find_by(content: comment.to_s)
 		if !found_job
