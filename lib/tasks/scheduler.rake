@@ -37,7 +37,7 @@ namespace :hn do
 			puts "Populating jobs for: #{post_title}..."
 			gather_jobs(post_link, post_date)
 			puts "Done Populating #{post_title}."
-			sleep(2)
+			sleep(3)
 		end
 	end
 end
@@ -82,9 +82,9 @@ end
 
 def access_proxy
 	agent = Mechanize.new
-	proxy = '198.23.143.27'
-	puts "Accessing proxy #{proxy}..."
-	agent.set_proxy proxy, 5555
+	# proxy = '198.23.143.27'
+	# puts "Accessing proxy #{proxy}..."
+	# agent.set_proxy proxy, 5555
 	return agent
 end
 
@@ -105,7 +105,7 @@ def gather_jobs(initial_link, post_date)
 
 	more_link = doc.css('a:contains("More")')
 	unless more_link.empty?
-		sleep(1)
+		sleep(2)
 		base_url = 'https://news.ycombinator.com'
 		the_href = more_link.attribute('href')
 		hacker_url = base_url + the_href
