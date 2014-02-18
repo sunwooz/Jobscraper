@@ -1,5 +1,5 @@
 <div class="row">
-	<div class="col-xs-10 col-xs-offset-1">
+	<div class="col-md-10 col-md-offset-1 col-xs-8 col-xs-offset-2">
 
 
 		<h1 class="center"><%= image_tag("ycomb.png") %> Hacker News Job Listings</h1>
@@ -10,14 +10,14 @@
 
 		<%= form_tag jobs_path, method: :get, :class => 'form-inline center job-form' do %>
 			<div class="form-group">
-				<%= text_field_tag :search, params[:search], :class => 'form-control center' %>
+				<%= text_field_tag :search, params[:search], :class => 'form-control center search-box' %>
 			</div>
 			<%= submit_tag "Search", :class => 'btn btn-primary' %>
 		<% end %>
 	</div>
 
 	<div class="row">
-		<div class="col-xs-10 col-xs-offset-1">
+		<div class="col-md-10 col-md-offset-1 col-xs-8 col-xs-offset-2">
 
 			<% if @jobs.any? %>
 				<%= will_paginate @jobs, renderer: BootstrapPagination::Rails %>
