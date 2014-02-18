@@ -18,6 +18,7 @@ gem 'progress_bar'
 gem 'pg', '0.17.1'
 gem 'mechanize'
 gem 'colorize'
+gem 'rufus-scheduler', '2.0.24'
 
 group :test, :development do
 	gem 'sqlite3'
