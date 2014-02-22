@@ -1,42 +1,14 @@
 <div class="row">
 	<div class="col-md-10 col-md-offset-1 col-xs-8 col-xs-offset-2">
 
+		<%= render "jobs/header_search" %>
 
-		<h1 class="center"><%= image_tag("ycomb.png") %> Hacker News Job Listings</h1>
-
-		<% if !params[:search].blank? %>
-			<h1 class="center"><span style="font-size: 14px">Showing <%= pluralize( @jobs.count, 'result') %> for</span><br/>'<%= params[:search] %>'</h1>
-		<% end %>
-
-		<%= form_tag jobs_path, method: :get, :class => 'form-inline center job-form' do %>
-			<div class="form-group">
-				<%= text_field_tag :search, params[:search], :class => 'form-control center search-box' %>
-			</div>
-			<%= submit_tag "Search", :class => 'btn btn-primary' %>
-		<% end %>
 	</div>
 
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1 col-xs-8 col-xs-offset-2">
 
-			<% if @jobs.any? %>
-				<%= will_paginate @jobs, renderer: BootstrapPagination::Rails %>
-			<% end %>
-
-			<div id="accordion">
-				<% @jobs.each do |job| %>
-					<div class="job_post">
-						<h3><%=raw job.content.split('<p>')[0] %> (<%= time_ago_in_words(job.created_at) %> ago)</h3>
-						<%=raw job.content %>
-						<%= link_to "Delete", job_path(job), data: { confirm: 'Are you sure?' }, method: :delete %><br>
-						<%= link_to "Job page", job_path(job) %><br><br>
-					</div>
-				<% end %>
-			</div>
-
-			<% if @jobs.any? %>
-				<%= will_paginate @jobs, renderer: BootstrapPagination::Rails %>
-			<% end %>
+			<%= render "jobs/paginated_listing" %>
 
 		</div><!-- row -->
 	</div><!-- div -->
@@ -51,5 +23,20 @@
 	    active: false,
 	    collapsible: true
 	  });
+
+	  function scrollToElement(selector, time, verticalOffset) {
+	    time = typeof(time) != 'undefined' ? time : 1000;
+	    verticalOffset = typeof(verticalOffset) != 'undefined' ? verticalOffset : 0;
+	    element = $(selector);
+	    offset = element.offset();
+	    offsetTop = offset.top + verticalOffset;
+	    $('html, body').animate({
+	        scrollTop: offsetTop
+	    }, time);
+		}
+
+	  $('h3').click(function() {
+			scrollToElement(this);
+		});
 	});
 </script>

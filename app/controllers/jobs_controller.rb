@@ -5,7 +5,7 @@ class JobsController < ApplicationController
 
 		session[:return_to] = nil
 
-		@jobs = Job.search(params[:search]).paginate(:page => params[:page])	
+		@jobs = Job.search(params[:search], params[:location]).paginate(:page => params[:page])	
 	end
 
 	def show
