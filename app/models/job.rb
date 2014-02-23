@@ -9,7 +9,7 @@ class Job < ActiveRecord::Base
 
 	private
 
-		def city_hash
+		def self.city_hash
 			cities = {
 				'New York City' => ['NYC', 'new york city', 'new york', 'ny'],
 				'San Francisco' => ['SF', 'San', 'SFrancisco']
@@ -17,7 +17,7 @@ class Job < ActiveRecord::Base
 		end
 
 		def self.to_location_query(location)
-			cities = city_hash
+			cities = Job.city_hash
 			location_query = cities[location].map do |city|
 					city.gsub(/\s/, "+")
 			end.join("|")
@@ -30,7 +30,7 @@ class Job < ActiveRecord::Base
 				sanitized = sanitize_sql_array(["to_tsquery('english', ?)", terms.gsub(/\s/, "+")])
 				result = Job.where("search_vector @@ #{sanitized}")
 			else location != "All Cities"
-				cities = city_hash
+				cities = Job.city_hash
 				location_query = cities[location].map do |city|
 						city.gsub(/\s/, "+")
 				end.join("|")
