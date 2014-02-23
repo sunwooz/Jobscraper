@@ -1,18 +1,24 @@
-<% if @jobs.any? %>
-  <%= will_paginate @jobs, renderer: BootstrapPagination::Rails %>
-<% end %>
 
-<div id="accordion">
-  <% @jobs.each_with_index do |job, index| %>
-    <div class="job_post">
-      <h3 id="<%= index %>"><%=raw job.content.split('<p>')[0] %> (<%= time_ago_in_words(job.created_at) %> ago)</h3>
-      <%=raw job.content %>
-      <%= link_to "Delete", job_path(job), data: { confirm: 'Are you sure?' }, method: :delete %><br>
-      <%= link_to "Job page", job_path(job) %><br><br>
+<div class="row">
+  <div class="col-md-10 col-md-offset-1 col-xs-8 col-xs-offset-2">
+
+    <% if @jobs.any? %>
+      <%= will_paginate @jobs, renderer: BootstrapPagination::Rails %>
+    <% end %>
+
+    <div id="accordion">
+      <% @jobs.each do |job| %>
+        <div class="job_post">
+          <h3 id="<%= job.id %>"><%=raw job.content.split('<p>')[0] %> (<%= time_ago_in_words(job.created_at) %> ago)</h3>
+          <%=raw job.content %>
+          <%#= link_to "Delete", job_path(job), data: { confirm: 'Are you sure?' }, method: :delete %><!-- <br> -->
+        </div>
+      <% end %>
     </div>
-  <% end %>
-</div>
 
-<% if @jobs.any? %>
-  <%= will_paginate @jobs, renderer: BootstrapPagination::Rails %>
-<% end %>
+    <% if @jobs.any? %>
+      <%= will_paginate @jobs, renderer: BootstrapPagination::Rails %>
+    <% end %>
+
+  </div>
+</div>

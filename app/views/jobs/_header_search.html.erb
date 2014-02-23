@@ -1,14 +1,19 @@
-<h1 class="center"><%= image_tag("ycomb.png") %> Hacker News Job Listings <em style="color: orange">ALPHA</em></h1>
 
-<h1 class="center">
-  <span style="font-size: 14px">Showing <%= pluralize( @jobs.count, 'result') %> for</span><br/>
-  '<%= params[:search] %>' in <%= params[:location]%>
-</h1>
+<div class="col-md-10 col-md-offset-1 col-xs-8 col-xs-offset-2">
 
-<%= form_tag jobs_path, method: :get, :class => 'form-inline center job-form' do %>
-  <div class="form-group">
-    <%= text_field_tag :search, params[:search], :class => 'form-control center search-box' %>
-    <%= select_tag("location", "<option selected='selected'>All Cities</option><option>New York City</option><option>San Francisco</option>".html_safe) %>
-  </div>
-  <%= submit_tag "Search", :class => 'btn btn-primary' %>
-<% end %>
+  <h1 class="center"><%= image_tag("ycomb.png") %> Hacker News Job Listings <em style="color: orange">ALPHA</em></h1>
+
+  <h1 class="center">
+    <span style="font-size: 14px">Showing <%= pluralize( @jobs.count, 'result') %> for</span><br/>
+    '<%= params[:search] %>' in <%= params[:location]%>
+  </h1>
+
+  <%= form_tag jobs_path, method: :get, :class => 'form-inline center job-form' do %>
+    <div class="form-group">
+      <%= text_field_tag :search, params[:search], :class => 'form-control center search-box' %>
+      <%= select_tag("location", "<option selected='selected'>All Cities</option><option>New York City</option><option>San Francisco</option>".html_safe) %>
+    </div>
+    <%= submit_tag "Search", :class => 'btn btn-primary' %>
+  <% end %>
+  
+</div>
