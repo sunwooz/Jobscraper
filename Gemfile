@@ -19,6 +19,7 @@ gem 'pg', '0.17.1'
 gem 'mechanize'
 gem 'colorize'
 gem 'rufus-scheduler', '2.0.24'
+gem 'pry'
 
 group :test, :development do
 	gem 'sqlite3'

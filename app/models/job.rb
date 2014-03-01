@@ -29,11 +29,9 @@ class Job < ActiveRecord::Base
 			if location == "All Cities"
 				sanitized = sanitize_sql_array(["to_tsquery('english', ?)", terms.gsub(/\s/, "+")])
 				result = Job.where("search_vector @@ #{sanitized}")
-			else location != "All Cities"
+			elsif location != "All Cities"
 				cities = Job.city_hash
-				location_query = cities[location].map do |city|
-						city.gsub(/\s/, "+")
-				end.join("|")
+				location_query = Job.convert_location_hash_to_sql(location)
 				location_query = "(" + location_query + ")"
 				result = Job.where("search_vector @@ to_tsquery('english', '#{location_query} & #{terms.gsub(/\s/, '+')}')")
 			end
@@ -51,4 +49,11 @@ class Job < ActiveRecord::Base
 			end
 			result
 		end
+
+		def self.convert_location_hash_to_sql(location)
+			cities[location].map do |city|
+						city.gsub(/\s/, "+")
+			end.join("|")
+		end
+
 end

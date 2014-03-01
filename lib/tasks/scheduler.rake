@@ -21,7 +21,7 @@ namespace :hn do
 				date_published = Date.parse( link.text )
 				puts "Creating #{link_text}."
 				HackerNewsJobPost.create(post_link: job_post_link, post_title: link.text, post_date: date_published)
-				puts "#{link_text} added."
+				puts "#{link_text} added.".blue
 			end
 		end
 	end
@@ -34,51 +34,46 @@ namespace :hn do
 			post_date = job_post.post_date
 			post_date_in_words = post_date.strftime("%B %d, %Y")
 			post_title = job_post.post_title
-			puts "Populating jobs for: #{post_title}..."
+			puts "Populating jobs for: #{post_title}...".green
 			gather_jobs(post_link, post_date)
-			puts "Done Populating #{post_title}."
+			puts "Done Populating #{post_title}.".green
 			sleep(3)
 		end
+		puts "All Jobs Stolen!".red
 	end
 end
 
-	namespace :schedule do
+desc "Scrape the latest HN hiring post"
+task :get_latest_post => :environment do
+	#NOT DONE
+	whoishiring_page = 'https://news.ycombinator.com/submitted?id=whoishiring'
+	hacker_base_url = 'https://news.ycombinator.com/'
 
-		desc "Scrape the latest HN hiring post"
-		task :latest_post do
-			#NOT DONE
-			whoishiring_page = 'https://news.ycombinator.com/submitted?id=whoishiring'
-			hacker_base_url = 'https://news.ycombinator.com/'
+	agent = access_proxy()
+	page = agent.get(whoishiring_page).body
+	puts "Who is Hiring page accessed."
 
-			agent = access_proxy()
-			page = agent.get(whoishiring_page).body
-			puts "Who is Hiring page accessed."
+	doc = Nokogiri::HTML( page )
 
-			doc = Nokogiri::HTML( page )
-			count = 0
-			doc.css('a').each do |link|
-				break if link.text.include?('Freelancer?') || count > 0
-				job_info = HackerNewsJobPost.find_by(post_title: link.text)
-				next if job_info 
-				if !job_info
-					count += 1
-					job_post_link = hacker_base_url + link.attribute('href')
-					date_published = Date.parse( link.text )
+	doc.css('td.title a').each do |link|
+		next if link.text.include?('Freelancer?')
+		job_info = HackerNewsJobPost.find_by(post_title: link.text)
+		if job_info
+			puts "Jobs already up to date.".green
+			break
+		end
+		if job_info.nil?
+			job_post_link = hacker_base_url + link.attribute('href')
+			date_published = Date.parse( link.text )
 
-					HackerNewsJobPost.create(post_title: link.text, post_link: job_post_link, post_date: date_published)
-				end
-
-				most_recent_hn_post_db = HackerNewsJobPost.all.order(post_date: :desc).first
-				if most_recent_hn_post_db.times_scraped < 20
-					puts "Scraping #{most_recent_hn_post_db.post_title}."
-					gather_jobs(most_recent_hn_post_db.post_link, most_recent_hn_post_db.post_date)
-				else
-					puts "No new jobs to scrape!"
-				end
-			end
+			HackerNewsJobPost.create(post_title: link.text, post_link: job_post_link, post_date: date_published)
 		end
 
+		most_recent_hn_post_db = HackerNewsJobPost.all.order(post_date: :desc).first
+		puts "Scraping #{most_recent_hn_post_db.post_title}."
+		gather_jobs(most_recent_hn_post_db.post_link, most_recent_hn_post_db.post_date)
 	end
+end
 
 def access_proxy
 	agent = Mechanize.new
@@ -91,8 +86,9 @@ end
 def gather_jobs(initial_link, post_date)
 	agent = access_proxy()
 	page = agent.get(initial_link).body
-	puts "\tMechanize visited #{initial_link}."
+	puts "Mechanize visited #{initial_link}.".blue
 
+	puts "Scraping comments from #{initial_link}".blue
 	doc = Nokogiri::HTML( page )
 	doc.css('span.comment').each do |comment|
 		found_job = Job.find_by(content: comment.to_s)
@@ -101,6 +97,7 @@ def gather_jobs(initial_link, post_date)
 			Job.create(content: html_comment, created_at: post_date)
 		end
 	end
+	puts "Scraped comments from #{initial_link}".blue
 
 	more_link = doc.css('a:contains("More")')
 	unless more_link.empty?
@@ -110,4 +107,5 @@ def gather_jobs(initial_link, post_date)
 		hacker_url = base_url + the_href
 		gather_jobs( hacker_url, post_date )
 	end
+	puts "Done scraping!".green
 end
