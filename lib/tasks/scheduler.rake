@@ -58,21 +58,18 @@ task :get_latest_post => :environment do
 	doc.css('td.title a').each do |link|
 		next if link.text.include?('Freelancer?')
 		job_info = HackerNewsJobPost.find_by(post_title: link.text)
-		if job_info
-			puts "Jobs already up to date.".green
-			break
-		end
+		next if job_info
 		if job_info.nil?
 			job_post_link = hacker_base_url + link.attribute('href')
 			date_published = Date.parse( link.text )
 
 			HackerNewsJobPost.create(post_title: link.text, post_link: job_post_link, post_date: date_published)
 		end
-
-		most_recent_hn_post_db = HackerNewsJobPost.all.order(post_date: :desc).first
-		puts "Scraping #{most_recent_hn_post_db.post_title}."
-		gather_jobs(most_recent_hn_post_db.post_link, most_recent_hn_post_db.post_date)
 	end
+
+	most_recent_hn_post_db = HackerNewsJobPost.all.order(post_date: :desc).first
+	puts "Scraping #{most_recent_hn_post_db.post_title}."
+	gather_jobs(most_recent_hn_post_db.post_link, most_recent_hn_post_db.post_date)
 end
 
 def access_proxy
