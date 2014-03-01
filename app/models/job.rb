@@ -2,8 +2,8 @@ class Job < ActiveRecord::Base
 	validates :content, uniqueness: true
 
 	def self.search(terms="", location)
-		result = Job.search_result_for_blank_query(terms, location) if terms.blank?
-		result = Job.search_result_for_query(terms, location) if !terms.blank?
+		result = Job.search_result_for_blank_query(terms, location).order("created_at DESC") if terms.blank?
+		result = Job.search_result_for_query(terms, location).order("created_at DESC") if !terms.blank?
 		result
 	end
 
