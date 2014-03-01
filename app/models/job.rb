@@ -40,7 +40,7 @@ class Job < ActiveRecord::Base
 
 		def self.search_result_for_blank_query(terms, location)
 			if location == "All Cities"
-				result = Job.all.order("created_at DESC")
+				result = Job.all
 			elsif !location.blank?
 				sanitized_location_query = Job.to_location_query(location)
 				result = Job.where("search_vector @@ #{sanitized_location_query}")
