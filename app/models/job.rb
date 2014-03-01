@@ -2,8 +2,8 @@ class Job < ActiveRecord::Base
 	validates :content, uniqueness: true
 
 	def self.search(terms="", location)
-		result = Job.search_result_for_blank_query(terms, location).order("created_at DESC") if terms.blank?
-		result = Job.search_result_for_query(terms, location).order("created_at DESC") if !terms.blank?
+		result = Job.search_result_for_blank_query(terms, location) if terms.blank?
+		result = Job.search_result_for_query(terms, location) if !terms.blank?
 		result
 	end
 
@@ -35,7 +35,7 @@ class Job < ActiveRecord::Base
 				location_query = "(" + location_query + ")"
 				result = Job.where("search_vector @@ to_tsquery('english', '#{location_query} & #{terms.gsub(/\s/, '+')}')")
 			end
-			result
+			result.order("created_at DESC")
 		end
 
 		def self.search_result_for_blank_query(terms, location)
@@ -47,7 +47,7 @@ class Job < ActiveRecord::Base
 			else
 				result = Job.all(limit:15)
 			end
-			result
+			result.order("created_at DESC")
 		end
 
 		def self.convert_location_hash_to_sql(location)
