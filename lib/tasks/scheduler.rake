@@ -59,7 +59,7 @@ task :get_latest_post => :environment do
 		next if link.text.include?('Freelancer?')
 		job_info = HackerNewsJobPost.find_by(post_title: link.text)
 		next if job_info
-		if job_info.nil?
+		if job_info.nil? && link.text.include?('Ask HN: Who is hiring?')
 			job_post_link = hacker_base_url + link.attribute('href')
 			date_published = Date.parse( link.text )
 
