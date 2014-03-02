@@ -20,6 +20,7 @@ gem 'mechanize'
 gem 'colorize'
 gem 'rufus-scheduler', '2.0.24'
 gem 'pry'
+gem 'devise'
 
 group :test, :development do
 	gem 'sqlite3'
