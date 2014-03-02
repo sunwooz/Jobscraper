@@ -1,6 +1,6 @@
 class Job < ActiveRecord::Base
 	validates :content, uniqueness: true
-	default_scope order('created_at DESC')
+	default_scope { order('created_at DESC') }
 
 	def self.search(terms="", location)
 		result = Job.search_result_for_blank_query(terms, location) if terms.blank?
