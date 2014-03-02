@@ -52,6 +52,7 @@ class Job < ActiveRecord::Base
 		end
 
 		def self.convert_location_hash_to_sql(location)
+			cities = Job.city_hash
 			cities[location].map do |city|
 						city.gsub(/\s/, "+")
 			end.join("|")
