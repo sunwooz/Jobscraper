@@ -68,6 +68,7 @@ Jobscraper::Application.configure do
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation can not be found).
   config.i18n.fallbacks = true
+  config.secret_key = '902af6eb1a51988d8c8d257948051c5f125cf3f71d7a89bea317a72976f2cba100e66c4512510b6c6294e99b9938b7cccb130f97c84e218d9e6c274f9a090917'
 
   # Send deprecation notices to registered listeners.
   config.active_support.deprecation = :notify
