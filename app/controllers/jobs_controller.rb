@@ -1,4 +1,5 @@
 class JobsController < ApplicationController
+	before_filter :authenticate_user!, :only => [:destroy]
 
 	def index
 		require 'will_paginate/array'
@@ -14,4 +15,3 @@ class JobsController < ApplicationController
 		redirect_to session[:return_to]
 	end
 end
-	
