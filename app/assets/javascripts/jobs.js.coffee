@@ -1,3 +1,21 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
+
+$ ->
+  $( "#accordion" ).accordion({
+    heightStyle: "content",
+    header: "h3",
+    active: false,
+    collapsible: true
+  });
+
+  scrollToElement = (selector, time, verticalOffset) ->
+    time = typeof(time) != 'undefined' ? time : 1000
+    verticalOffset = typeof(verticalOffset) != 'undefined' ? verticalOffset : 0
+    element = $(selector)
+    offset = element.offset()
+    offsetTop = offset.top + verticalOffset
+    $('html, body').animate({
+        scrollTop: offsetTop
+    }, time)
+
+  $('h3').click ->
+    scrollToElement(this)

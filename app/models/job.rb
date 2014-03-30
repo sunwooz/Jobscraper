@@ -46,7 +46,7 @@ class Job < ActiveRecord::Base
 				sanitized_location_query = Job.to_location_query(location)
 				result = Job.where("search_vector @@ #{sanitized_location_query}")
 			else
-				result = Job.all(limit:15)
+				result = []
 			end
 			result
 		end

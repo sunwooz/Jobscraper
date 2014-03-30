@@ -5,29 +5,3 @@
 	<%= render "jobs/paginated_listing" %>
 
 </div><!-- row -->
-
-<script>
-	$(function() {
-	  $( "#accordion" ).accordion({
-	    heightStyle: "content",
-	    header: "h3",
-	    active: false,
-	    collapsible: true
-	  });
-
-	  function scrollToElement(selector, time, verticalOffset) {
-	    time = typeof(time) != 'undefined' ? time : 1000;
-	    verticalOffset = typeof(verticalOffset) != 'undefined' ? verticalOffset : 0;
-	    element = $(selector);
-	    offset = element.offset();
-	    offsetTop = offset.top + verticalOffset;
-	    $('html, body').animate({
-	        scrollTop: offsetTop
-	    }, time);
-		}
-
-	  $('h3').click(function() {
-			scrollToElement(this);
-		});
-	});
-</script>
