@@ -1,11 +1,4 @@
-
-$ ->
-  $( "#accordion" ).accordion({
-    heightStyle: "content",
-    header: "h3",
-    active: false,
-    collapsible: true
-  });
+$(document).ready ->
 
   scrollToElement = (selector, time, verticalOffset) ->
     time = typeof(time) != 'undefined' ? time : 1000
