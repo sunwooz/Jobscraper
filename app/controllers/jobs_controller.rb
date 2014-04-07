@@ -9,7 +9,7 @@ class JobsController < ApplicationController
 		@cities = City.all
 		puts "MY LOGS YO!"
 		puts params.inspect
-		@jobs = Job.search(params[:search], params[:city][:location]).paginate(:page => params[:page])
+		@jobs = Job.search(params[:search], params[:city][:location]).paginate(:page => params[:page]) if params[:city].nil?
 	end
 
 	def destroy
