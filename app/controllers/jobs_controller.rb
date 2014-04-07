@@ -7,6 +7,7 @@ class JobsController < ApplicationController
 		session[:return_to] = nil
 
 		@cities = City.all
+		puts "MY LOGS YO!"
 		puts params.inspect
 		@jobs = Job.search(params[:search], params[:city][:location]).paginate(:page => params[:page])
 	end
