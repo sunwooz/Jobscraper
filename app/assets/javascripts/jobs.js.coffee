@@ -10,5 +10,5 @@ $(document).ready ->
         scrollTop: offsetTop
     }, time)
 
-  $('h3').click ->
-    scrollToElement(this)
+  # $('h3').click ->
+  #   scrollToElement(this)

@@ -6,7 +6,9 @@ class JobsController < ApplicationController
 
 		session[:return_to] = nil
 
-		@jobs = Job.search(params[:search], params[:location]).paginate(:page => params[:page])
+		@cities = City.all
+
+		@jobs = Job.search(params[:search], params[:city][:location]).paginate(:page => params[:page])
 	end
 
 	def destroy

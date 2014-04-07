@@ -10,17 +10,17 @@ class Job < ActiveRecord::Base
 
 	private
 
-		def self.city_hash
-			cities = {
-				'New York City' => ['NYC', 'new york city', 'new york', 'ny'],
-				'San Francisco' => ['SF', 'San', 'SFrancisco']
-			}
-		end
+		# def self.city_hash
+		# 	cities = {
+		# 		'New York City' => ['NYC', 'new york city', 'new york', 'ny'],
+		# 		'San Francisco' => ['SF', 'San', 'SFrancisco']
+		# 	}
+		# end
 
 		def self.to_location_query(location)
-			cities = Job.city_hash
-			location_query = cities[location].map do |city|
-					city.gsub(/\s/, "+")
+			alternative_city_names = City.find_by(name: location).alternative_names
+			location_query = alternative_city_names.map do |city|
+				city.gsub(/\s/, "+")
 			end.join("|")
 			location_query = "(" + location_query + ")"
 			sanitized_locations = sanitize_sql_array(["to_tsquery('english', ?)", location_query])
@@ -29,22 +29,21 @@ class Job < ActiveRecord::Base
 		def self.search_result_for_query(terms, location)
 			if location == "All Cities"
 				sanitized = sanitize_sql_array(["to_tsquery('english', ?)", terms.gsub(/\s/, "+")])
-				result = Job.where("search_vector @@ #{sanitized}")
+				result = Job.where("search_vector @@ #{sanitized}").order("created_at DESC")
 			elsif location != "All Cities"
-				cities = Job.city_hash
 				location_query = Job.convert_location_hash_to_sql(location)
 				location_query = "(" + location_query + ")"
-				result = Job.where("search_vector @@ to_tsquery('english', '#{location_query} & #{terms.gsub(/\s/, '+')}')")
+				result = Job.where("search_vector @@ to_tsquery('english', '#{location_query} & #{terms.gsub(/\s/, '+')}')").order("created_at DESC")
 			end
 			result
 		end
 
 		def self.search_result_for_blank_query(terms, location)
 			if location == "All Cities"
-				result = Job.all
+				result = Job.all.order("created_at DESC")
 			elsif !location.blank?
 				sanitized_location_query = Job.to_location_query(location)
-				result = Job.where("search_vector @@ #{sanitized_location_query}")
+				result = Job.where("search_vector @@ #{sanitized_location_query}").order("created_at DESC")
 			else
 				result = []
 			end
@@ -52,8 +51,8 @@ class Job < ActiveRecord::Base
 		end
 
 		def self.convert_location_hash_to_sql(location)
-			cities = Job.city_hash
-			cities[location].map do |city|
+			alternative_city_names = City.find_by(name: location).alternative_names
+			alternative_city_names.map do |city|
 						city.gsub(/\s/, "+")
 			end.join("|")
 		end
