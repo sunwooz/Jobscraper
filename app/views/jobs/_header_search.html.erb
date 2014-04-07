@@ -7,7 +7,7 @@
 
   <h1 class="center">
     <span style="font-size: 14px">Showing <%= pluralize( @jobs.count, 'result') %> for</span><br/>
-    '<%= params[:search] %>' in <%= params[:location]%>
+    '<%= params[:search] %>' in <%= params[:city][:location] %>
   </h1>
 
   <%= form_tag jobs_path, method: :get, :class => 'form-inline center job-form' do %>
