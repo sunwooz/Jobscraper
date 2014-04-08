@@ -10,13 +10,6 @@ class Job < ActiveRecord::Base
 
 	private
 
-		# def self.city_hash
-		# 	cities = {
-		# 		'New York City' => ['NYC', 'new york city', 'new york', 'ny'],
-		# 		'San Francisco' => ['SF', 'San', 'SFrancisco']
-		# 	}
-		# end
-
 		def self.to_location_query(location)
 			alternative_city_names = City.find_by(name: location).alternative_names
 			location_query = alternative_city_names.map do |city|
