@@ -16,12 +16,12 @@ ActiveRecord::Schema.define(version: 20140407175907) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "cities", force: true do |t|
+  create_table "cities", force: :cascade do |t|
     t.string "name"
     t.string "alternative_names", default: [], array: true
   end
 
-  create_table "delayed_jobs", force: true do |t|
+  create_table "delayed_jobs", force: :cascade do |t|
     t.integer  "priority",   default: 0, null: false
     t.integer  "attempts",   default: 0, null: false
     t.text     "handler",                null: false
@@ -37,14 +37,14 @@ ActiveRecord::Schema.define(version: 20140407175907) do
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
-  create_table "hacker_news_job_posts", force: true do |t|
+  create_table "hacker_news_job_posts", force: :cascade do |t|
     t.string  "post_link"
     t.string  "post_title"
     t.date    "post_date"
     t.integer "times_scraped"
   end
 
-  create_table "jobs", force: true do |t|
+  create_table "jobs", force: :cascade do |t|
     t.text     "content"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(version: 20140407175907) do
 
   add_index "jobs", ["search_vector"], name: "jobs_search_idx", using: :gin
 
-  create_table "users", force: true do |t|
+  create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
