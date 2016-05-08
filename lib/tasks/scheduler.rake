@@ -5,6 +5,7 @@ require 'colorize'
 
 namespace :hn do
 	desc "get a list of HN Hiring Now links and put in database"
+	# use this first in a clean database to grab all the separate months
 	task :link_populate => :environment do
 		whoishiring_page = 'https://news.ycombinator.com/submitted?id=whoishiring'
 		hacker_base_url = 'https://news.ycombinator.com/'
@@ -27,6 +28,7 @@ namespace :hn do
 	end
 
 	desc "grab and update all job 'comments' from all job 'posts'"
+	#use this after :link_populate to grab all the individual job information
 	task :db_populate_all => :environment do
 		job_post_list = HackerNewsJobPost.all
 		job_post_list.each do |job_post|
@@ -45,7 +47,7 @@ end
 
 desc "Scrape the latest HN hiring post"
 task :get_latest_post => :environment do
-	#NOT DONE
+	#use this grab the latest page and its comments
 	whoishiring_page = 'https://news.ycombinator.com/submitted?id=whoishiring'
 	hacker_base_url = 'https://news.ycombinator.com/'
 
