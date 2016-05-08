@@ -5,7 +5,6 @@ require 'colorize'
 
 namespace :hn do
 	desc "get a list of HN Hiring Now links and put in database"
-	# use this first in a clean database to grab all the separate months
 	task :link_populate => :environment do
 		whoishiring_page = 'https://news.ycombinator.com/submitted?id=whoishiring'
 		hacker_base_url = 'https://news.ycombinator.com/'
@@ -28,7 +27,6 @@ namespace :hn do
 	end
 
 	desc "grab and update all job 'comments' from all job 'posts'"
-	#use this after :link_populate to grab all the individual job information
 	task :db_populate_all => :environment do
 		job_post_list = HackerNewsJobPost.all
 		job_post_list.each do |job_post|
@@ -93,7 +91,9 @@ def gather_jobs(initial_link, post_date)
 		found_job = Job.find_by(content: comment.to_s)
 		if !found_job
 			html_comment = comment.to_s
-			Job.create(content: html_comment, created_at: post_date)
+			title = ActionView::Base.full_sanitizer.sanitize(html_comment.split('<p>')[0])
+			title = clean_title(title)
+			Job.create(content: html_comment, created_at: post_date, company: title)
 		end
 	end
 	puts "Scraped comments from #{initial_link}".blue
@@ -107,4 +107,8 @@ def gather_jobs(initial_link, post_date)
 		gather_jobs( hacker_url, post_date )
 	end
 	puts "Done scraping!".green
+end
+
+def clean_title(text)
+	text.split("|")[0].split("-")[0].split(",")[0].split("(")[0].split("http")[0].split("•")[0].split("[")[0].strip
 end

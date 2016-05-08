@@ -6,18 +6,13 @@
       <%= will_paginate @jobs, renderer: BootstrapPagination::Rails %>
     <% end %>
 
-    <div id="accordion">
-      <% @jobs.each do |job| %>
-        <div class="job_post">
-          <h3 id="<%= job.id %>"><%=raw job.content.split('<p>')[0] %> (<%= time_ago_in_words(job.created_at) %> ago)</h3>
-          <%=raw job.content %>
-
-          <% if user_signed_in? && current_user.email.downcase == "yangsunwoo@gmail.com" %>
-            <%= link_to "Delete", job_path(job), data: { confirm: 'Are you sure?' }, method: :delete %><br>
-          <% end %>
-        </div>
-      <% end %>
-    </div>
+    <% @jobs.each do |job| %>
+      <div class="job-button">
+        <h1 id="<%= job.id %>" class="job-title">
+          <%= raw job.company %>
+        </h1>
+      </div>
+    <% end %>
 
     <% if @jobs.any? %>
       <%= will_paginate @jobs, renderer: BootstrapPagination::Rails %>
