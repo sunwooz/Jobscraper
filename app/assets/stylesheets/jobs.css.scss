@@ -17,3 +17,19 @@ a {
 .job-button h1.job-title {
   font-size: 1em;
 }
+
+.reply {
+  display: none;
+}
+
+.job-button {
+  padding: 10px 20px;
+  box-shadow: 5px 8px 10px gray;
+  border: 1px solid #e6af4b;
+  margin-bottom: 4px;
+}
+
+.active-job {
+  background-color: #e05038;
+  color: #e6af4b;
+}

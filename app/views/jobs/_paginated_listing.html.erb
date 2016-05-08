@@ -11,14 +11,19 @@
         <% @jobs.each do |job| %>
           <div class="job-button" data-job="<%= job.content %>">
             <h1 id="<%= job.id %>" class="job-title">
-              <%= raw job.company %>
+              <%= raw job.company %><br>
+              <%= time_ago_in_words(job.created_at) %> ago
             </h1>
           </div>
+
+          <% if current_user && current_user.email == 'yangsunwoo@gmail.com' %>
+            <%= link_to 'edit', edit_job_path(job) %>
+            <%= link_to 'destroy', job_path(job), method: :delete, confirm: 'You sure bub?', remote: true %>
+          <% end %>
         <% end %>
       </div>
 
       <div class="col-xs-8" id="result">
-        results
       </div>
     </div>
     
