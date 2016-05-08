@@ -19,6 +19,7 @@ gem 'colorize'
 gem 'pry'
 gem 'devise'
 gem 'haml-rails'
+gem 'whenever', require: false
 
 group :test, :development do
 	gem 'sqlite3'

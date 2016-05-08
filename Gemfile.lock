@@ -58,6 +58,7 @@ GEM
       xpath (~> 2.0)
     childprocess (0.5.9)
       ffi (~> 1.0, >= 1.0.11)
+    chronic (0.10.2)
     coderay (1.1.1)
     coffee-rails (4.1.1)
       coffee-script (>= 2.2.0)
@@ -227,6 +228,8 @@ GEM
       rack (>= 1.0)
     webrobots (0.1.2)
     websocket (1.0.7)
+    whenever (0.9.4)
+      chronic (>= 0.6.3)
     will_paginate (3.1.0)
     will_paginate-bootstrap (1.0.1)
       will_paginate (>= 3.0.3)
@@ -261,5 +264,6 @@ DEPENDENCIES
   selenium-webdriver (= 2.39.0)
   sqlite3
   uglifier
+  whenever
   will_paginate
   will_paginate-bootstrap
