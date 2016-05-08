@@ -7,7 +7,7 @@ Devise.setup do |config|
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
   # config.secret_key = '1e2987d96678c617309321d1dd48a26c00839319ff925811779c35e11a5d142b2ba2fa4562a0771ce5d62fdbb772e75b306c7e4a52c1cbc50e751a30b9908a0b'
-  config.secret_key = ENV['SECRET_KEY']
+  config.secret_key = Jobscraper::Application.config.secret_key_base
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
