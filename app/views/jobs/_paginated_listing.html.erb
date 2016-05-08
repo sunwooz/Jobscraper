@@ -6,13 +6,22 @@
       <%= will_paginate @jobs, renderer: BootstrapPagination::Rails %>
     <% end %>
 
-    <% @jobs.each do |job| %>
-      <div class="job-button">
-        <h1 id="<%= job.id %>" class="job-title">
-          <%= raw job.company %>
-        </h1>
+    <div class="row">
+      <div class="col-xs-4">
+        <% @jobs.each do |job| %>
+          <div class="job-button" data-job="<%= job.content %>">
+            <h1 id="<%= job.id %>" class="job-title">
+              <%= raw job.company %>
+            </h1>
+          </div>
+        <% end %>
       </div>
-    <% end %>
+
+      <div class="col-xs-8" id="result">
+        results
+      </div>
+    </div>
+    
 
     <% if @jobs.any? %>
       <%= will_paginate @jobs, renderer: BootstrapPagination::Rails %>
