@@ -229,7 +229,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bootstrap-sass
-  capybara (= 2.2.1)
+  capybara
   coffee-rails
   colorize
   devise
@@ -242,9 +242,9 @@ DEPENDENCIES
   puma
   quiet_assets
   rails (= 4.2.3)
-  rspec-rails (= 2.13.1)
+  rspec-rails
   sass-rails
-  selenium-webdriver (= 2.39.0)
+  selenium-webdriver
   uglifier
   whenever
   will_paginate
