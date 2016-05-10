@@ -5,13 +5,10 @@ gem 'sass-rails'
 gem 'uglifier'
 gem 'coffee-rails'
 gem 'jquery-rails'
-gem 'jbuilder'
 gem 'bootstrap-sass'
 gem 'nokogiri'
-gem 'delayed_job_active_record'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
-gem 'progress_bar'
 gem 'pg'
 gem 'puma'
 gem 'mechanize'
@@ -22,8 +19,7 @@ gem 'haml-rails'
 gem 'whenever', require: false
 
 group :test, :development do
-	gem 'sqlite3'
-	gem 'rspec-rails', '2.13.1'
+	gem 'rspec-rails'
 end
 
 group :development do
@@ -33,6 +29,6 @@ group :development do
 end
 
 group :test do
-	gem 'selenium-webdriver', '2.39.0'
-	gem 'capybara', '2.2.1'
+	gem 'selenium-webdriver'
+	gem 'capybara'
 end
