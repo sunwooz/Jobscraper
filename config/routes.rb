@@ -7,4 +7,6 @@ Jobscraper::Application.routes.draw do
 
   resources :jobs
 
+  get '/jobs/:id/comments' => 'comments#index', as: :job_comments
+
 end
