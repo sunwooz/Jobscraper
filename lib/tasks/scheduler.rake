@@ -87,13 +87,29 @@ def gather_jobs(initial_link, post_date)
 
 	puts "Scraping comments from #{initial_link}".blue
 	doc = Nokogiri::HTML( page )
-	doc.css('span.comment').each do |comment|
-		found_job = Job.find_by(content: comment.to_s)
-		if !found_job
-			html_comment = comment.to_s
+
+	doc.css('tr.athing').each do |tr|
+		next if tr.text.strip.include?('Ask HN: Who is hiring?')
+		text_content = tr.css('.comment').to_s
+		found_job = Job.find_by(content: text_content)
+		if Job.count == 1
+			last_job = Job.first
+		else
+			last_job = Job.order('created_at')[-1]
+		end
+
+		if tr.css('.ind img')[0]['width'] == "0" && !found_job
+			# if comment is first level comment
+			# and job doesn't already exist in database
+			html_comment = text_content
 			title = ActionView::Base.full_sanitizer.sanitize(html_comment.split('<p>')[0])
 			title = clean_title(title)
 			Job.create(content: html_comment, created_at: post_date, company: title)
+		elsif tr.css('.ind img')[0]['width'] != "0" && !last_job.comments.pluck(:content).include?(text_content)
+			# if comment is not first level comment
+			# and the job does not already have this comment
+			last_job.comments << Comment.create(content: text_content)
+			last_job.save
 		end
 	end
 	puts "Scraped comments from #{initial_link}".blue
