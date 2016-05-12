@@ -134,9 +134,10 @@ def gather_jobs(initial_link, post_date)
 end
 
 def clean_title(text)
-	if text.nil? || text.empty?
-		return "No Title"
-	else
-		text.split("|")[0].split("-")[0].split(",")[0].split("(")[0].split("http")[0].split("•")[0].split("[")[0].strip
+	begin
+		cleaned_title = text.split("|")[0].split("-")[0].split(",")[0].split("(")[0].split("http")[0].split("•")[0].split("[")[0].strip
+	rescue
+		cleaned_title = "No Title"
 	end
+	cleaned_title
 end
