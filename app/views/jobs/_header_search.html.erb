@@ -1,24 +1,15 @@
+<div class="col-xs-12 hacker-nav">
+  <div class="logo">
+    <%= image_tag("ycomb.png") %>
+  </div>
 
-<div class="col-md-10 col-md-offset-1 col-xs-8 col-xs-offset-2">
+  <%= form_tag jobs_path, method: :get, class: 'search-form' do %>
 
-  <h1 class="center">
-    <%= image_tag("ycomb.png") %> Hacker Jobs <em style="color: orange">ALPHA</em>
-  </h1>
+      <%= text_field_tag :search, params[:search], placeholder: 'Search Term( ex: ruby, data scientist )' %>
 
-  <h1 class="center">
-    <span style="font-size: 14px">Showing <%= pluralize( @jobs.count, 'result') %> for</span><br/>
-
-  </h1>
-
-  <%= form_tag jobs_path, method: :get, :class => 'form-inline center job-form' do %>
-    <div class="form-group">
-      <%= text_field_tag :search, params[:search], :class => 'form-control center search-box' %>
-
-      <%= collection_select(:city, :location, @cities, :name, :name) %>
+      <%= collection_select(:city, :location, @cities, :name, :name, {}, { class: 'form-control select-form' }) %>
 
       <%= submit_tag "Search", :class => 'btn btn-primary' %>
-    </div>
 
   <% end %>
-
 </div>

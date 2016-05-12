@@ -1,13 +1,27 @@
 // Place all the styles related to the jobs controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-
+body {
+  height: 100vh;
+  overflow-y: hidden;
+}
 .center {
 	text-align: center;
 }
 
-.job-form {
-	margin-bottom: 30px;
+.search-form {
+	height: 48px;
+
+  #search {
+    height: 100%;
+    width: 20%;
+    text-align: center;
+  }
+
+  .select-form {
+    width: 20%;
+    display: inline-block;
+  }
 }
 
 a {
@@ -36,4 +50,13 @@ a {
 
 h1.header {
   font-size: 1.7em;
+}
+
+.hacker-nav {
+  border-bottom: 1px solid black;
+  vertical-align: middle;
+}
+
+.logo {
+  float: left;
 }

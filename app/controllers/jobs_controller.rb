@@ -9,7 +9,7 @@ class JobsController < ApplicationController
 		@cities = City.all.order("name ASC")
 
 		if params.keys.include?('city')
-			@jobs = Job.search(params[:search], params[:city][:location]).paginate(:page => params[:page], :per_page => 8)
+			@jobs = Job.search(params[:search], params[:city][:location]).paginate(:page => params[:page], :per_page => 6)
 		else
 			@jobs = []
 		end

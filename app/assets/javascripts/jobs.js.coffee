@@ -7,8 +7,8 @@ $ ->
   content = first_result.eq(0).data('job')
   header = first_result.eq(0).data('header')
 
-  $('#result').append("<a href='/jobs/" + id + "/comments'>Comments(" + comment_count + ")</a><br>")
-  $('#result').append("<h1 class='header'>" + header + "</h1><br>")
+  $('#result').append("<h1 class='header'>" + header + "</h1>")
+  $('#result').append("<a href='/jobs/" + id + "/comments'>Comments(" + comment_count + ")</a><br><br>")
   $('#result').append(content)
 
   #apply active class to first job button when page loads
@@ -22,12 +22,12 @@ $ ->
     #append comments
     comment_count = $(this).find('h1.job-title').data('comment-count')
     id = $(this).find('h1.job-title').attr('id')
-    $('#result').append("<a href='/jobs/" + id + "/comments'>Comments(" + comment_count + ")</a><br>")
 
     content = $(this).eq(0).data('job')
     header = $(this).eq(0).data('header')
 
-    $('#result').append("<h1 class='header'>" + header + "</h1><br>")
+    $('#result').append("<h1 class='header'>" + header + "</h1>")
+    $('#result').append("<a href='/jobs/" + id + "/comments'>Comments(" + comment_count + ")</a><br><br>")
     $('#result').append(content)
     
     $('.job-button').removeClass('active-job')
