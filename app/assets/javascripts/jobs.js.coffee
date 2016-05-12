@@ -9,7 +9,7 @@ $ ->
 
   $('#result').append("<h1 class='header'>" + header + "</h1>")
   $('#result').append("<a href='/jobs/" + id + "/comments'>Comments(" + comment_count + ")</a><br><br>")
-  $('#result').append(content)
+  $('#result').append("<div class='job-content'>" + content + "</div>")
 
   #apply active class to first job button when page loads
   $('.job-button').eq(0).addClass('active-job')
@@ -28,7 +28,7 @@ $ ->
 
     $('#result').append("<h1 class='header'>" + header + "</h1>")
     $('#result').append("<a href='/jobs/" + id + "/comments'>Comments(" + comment_count + ")</a><br><br>")
-    $('#result').append(content)
+    $('#result').append("<div class='job-content'>" + content + "</div>")
     
     $('.job-button').removeClass('active-job')
     $(this).addClass('active-job')

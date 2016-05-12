@@ -1,32 +1,24 @@
 
-<div class="row">
-  <div class="col-md-10 col-xs-8">
+<div class="col-xs-4">
 
-    <div class="row">
-      <div class="col-xs-4">
+  <% if @jobs.any? %>
+    <%= will_paginate @jobs, renderer: BootstrapPagination::Rails, page_links: false %>
+  <% end %>
 
-        <% if @jobs.any? %>
-          <%= will_paginate @jobs, renderer: BootstrapPagination::Rails, page_links: false %>
-        <% end %>
-        
-        <% @jobs.each do |job| %>
-          <div class="job-button" data-job="<%= job.content %>" data-header="<%= job.header %>">
-            <h1 id="<%= job.id %>", data-comment-count="<%= job.comments.count %>" class="job-title">
-              <%= raw job.company %><br>
-              <%= time_ago_in_words(job.created_at) %> ago
-            </h1>
-          </div>
-
-          <% if current_user && current_user.email == 'yangsunwoo@gmail.com' %>
-            <%= link_to 'edit', edit_job_path(job) %>
-            <%= link_to 'destroy', job_path(job), method: :delete, confirm: 'You sure bub?', remote: true %>
-          <% end %>
-        <% end %>
-      </div>
-
-      <div class="col-xs-8" id="result">
-      </div>
+  <% @jobs.each do |job| %>
+    <div class="job-button" data-job="<%= job.content %>" data-header="<%= job.header %>">
+      <h1 id="<%= job.id %>", data-comment-count="<%= job.comments.count %>" class="job-title">
+        <%= raw job.company %><br>
+        <%= time_ago_in_words(job.created_at) %> ago
+      </h1>
     </div>
 
-  </div>
+    <% if current_user && current_user.email == 'yangsunwoo@gmail.com' %>
+      <%= link_to 'edit', edit_job_path(job) %>
+      <%= link_to 'destroy', job_path(job), method: :delete, confirm: 'You sure bub?', remote: true %>
+    <% end %>
+  <% end %>
 </div>
+
+<div class="col-xs-8" id="result"></div>
+

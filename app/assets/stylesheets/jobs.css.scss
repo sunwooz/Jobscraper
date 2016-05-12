@@ -50,13 +50,31 @@ a {
 
 h1.header {
   font-size: 1.7em;
+  width: 90%;
+  margin-right: 0;
+}
+
+.job-content {
+  width: 95%;
 }
 
 .hacker-nav {
   border-bottom: 1px solid black;
   vertical-align: middle;
+  padding-left: 0px !important;
 }
 
 .logo {
   float: left;
+}
+
+.job-content {
+  height: 65vh;
+  overflow-y: scroll;
+}
+
+#result {
+  padding: 0;
+  width: 64%;
+  margin-left: 2%;
 }
