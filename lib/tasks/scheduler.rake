@@ -104,7 +104,7 @@ def gather_jobs(initial_link, post_date)
 			# save it
 			html_comment = text_content
 			full_title = ActionView::Base.full_sanitizer.sanitize(html_comment.split('<p>')[0]).strip
-			
+
 			if !full_title.nil?
 				title = clean_title(full_title)
 			else
@@ -134,5 +134,9 @@ def gather_jobs(initial_link, post_date)
 end
 
 def clean_title(text)
-	text.split("|")[0].split("-")[0].split(",")[0].split("(")[0].split("http")[0].split("•")[0].split("[")[0].strip
+	if text.nil? || text.empty?
+		return "No Title"
+	else
+		text.split("|")[0].split("-")[0].split(",")[0].split("(")[0].split("http")[0].split("•")[0].split("[")[0].strip
+	end
 end
