@@ -7,15 +7,20 @@ $ ->
   $('.job-button').eq(0).addClass('active-job')
 
 
+  #show job from data attribute when button is clicked
   $('.job-button').click () ->
     $('#result').html('')
-    console.log($(this))
-    data = $(this).eq(0).data('job')
-    console.log data
-    $('#result').append(data)
-    id = $(this).find('h1.job-title').attr('id')
-    comment_count = $(this).find('h1.job-title').data('comment-count')
-    $('#result').append("<a href='/jobs/" + id + "/comments'>Comments(" + comment_count + ")</a>")
 
+    #append comments
+    comment_count = $(this).find('h1.job-title').data('comment-count')
+    id = $(this).find('h1.job-title').attr('id')
+    $('#result').append("<a href='/jobs/" + id + "/comments'>Comments(" + comment_count + ")</a><br>")
+
+    content = $(this).eq(0).data('job')
+    header = $(this).eq(0).data('header')
+
+    $('#result').append("<h1 class='header'>" + header + "</h1><br>")
+    $('#result').append(content)
+    
     $('.job-button').removeClass('active-job')
     $(this).addClass('active-job')

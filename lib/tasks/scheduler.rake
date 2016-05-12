@@ -101,10 +101,12 @@ def gather_jobs(initial_link, post_date)
 		if tr.css('.ind img')[0]['width'] == "0" && !found_job
 			# if comment is first level comment
 			# and job doesn't already exist in database
+			# save it
 			html_comment = text_content
-			title = ActionView::Base.full_sanitizer.sanitize(html_comment.split('<p>')[0])
-			title = clean_title(title)
-			Job.create(content: html_comment, created_at: post_date, company: title)
+			full_title = ActionView::Base.full_sanitizer.sanitize(html_comment.split('<p>')[0]).strip
+			title = clean_title(full_title)
+			content = html_comment.split('<p>')[1..-1].join(" ")
+			Job.create(content: content, created_at: post_date, company: title, header: full_title)
 		elsif tr.css('.ind img')[0]['width'] != "0" && !last_job.comments.pluck(:content).include?(text_content)
 			# if comment is not first level comment
 			# and the job does not already have this comment

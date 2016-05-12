@@ -9,7 +9,7 @@
     <div class="row">
       <div class="col-xs-4">
         <% @jobs.each do |job| %>
-          <div class="job-button" data-job="<%= job.content %>">
+          <div class="job-button" data-job="<%= job.content %>" data-header="<%= job.header %>">
             <h1 id="<%= job.id %>", data-comment-count="<%= job.comments.count %>" class="job-title">
               <%= raw job.company %><br>
               <%= time_ago_in_words(job.created_at) %> ago
