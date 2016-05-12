@@ -104,7 +104,13 @@ def gather_jobs(initial_link, post_date)
 			# save it
 			html_comment = text_content
 			full_title = ActionView::Base.full_sanitizer.sanitize(html_comment.split('<p>')[0]).strip
-			title = clean_title(full_title)
+			
+			if !full_title.nil?
+				title = clean_title(full_title)
+			else
+				title = "No Title"
+			end
+
 			content = html_comment.split('<p>')[1..-1].join(" ")
 			Job.create(content: content, created_at: post_date, company: title, header: full_title)
 		elsif tr.css('.ind img')[0]['width'] != "0" && !last_job.comments.pluck(:content).include?(text_content)
