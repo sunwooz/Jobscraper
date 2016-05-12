@@ -9,21 +9,7 @@ namespace :hn do
 		whoishiring_page = 'https://news.ycombinator.com/submitted?id=whoishiring'
 		hacker_base_url = 'https://news.ycombinator.com/'
 
-		agent = access_proxy()
-		page = agent.get(whoishiring_page).body
-		print "Page accessed."
-
-		doc = Nokogiri::HTML( page )
-		doc.css('a').each do |link|
-			link_text = link.text
-			if link.text.include?('Ask HN: Who is hiring?')
-				job_post_link = hacker_base_url + link.attribute('href')
-				date_published = Date.parse( link.text )
-				puts "Creating #{link_text}."
-				HackerNewsJobPost.create(post_link: job_post_link, post_title: link.text, post_date: date_published)
-				puts "#{link_text} added.".blue
-			end
-		end
+		access_page(whoishiring_page)
 	end
 
 	desc "grab and update all job 'comments' from all job 'posts'"
@@ -140,4 +126,36 @@ def clean_title(text)
 		cleaned_title = "No Title"
 	end
 	cleaned_title
+end
+
+def access_page(whoishiring_page)
+	agent = access_proxy()
+	page = agent.get(whoishiring_page).body
+	print "Page accessed."
+
+	doc = Nokogiri::HTML( page )
+	grab_hn_links(doc)
+
+	more_link = doc.css('a:contains("More")')
+	if !more_link.empty?
+		sleep(3)
+		base_url = 'https://news.ycombinator.com/'
+		the_href = more_link.attribute('href')
+		hacker_url = base_url + the_href
+		access_page(hacker_url)
+	end
+end
+
+def grab_hn_links(doc)
+	hacker_base_url = 'https://news.ycombinator.com/'
+	doc.css('a').each do |link|
+		link_text = link.text
+		if link.text.include?('Ask HN: Who is hiring?')
+			job_post_link = hacker_base_url + link.attribute('href')
+			date_published = Date.parse( link.text )
+			puts "Creating #{link_text}."
+			HackerNewsJobPost.create(post_link: job_post_link, post_title: link.text, post_date: date_published)
+			puts "#{link_text} added.".blue
+		end
+	end
 end
